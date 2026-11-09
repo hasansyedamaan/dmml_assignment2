@@ -1,50 +1,50 @@
-2026-11-10 04:42:10 | INFO     | httpx | HTTP Request: GET http://127.0.0.1:8122/api/health "HTTP/1.1 200 OK"
-2026-11-10 04:42:10 | INFO     | httpx | HTTP Request: GET http://127.0.0.1:8122/api/admin/version "HTTP/1.1 200 OK"
-2026-11-10 04:42:10 | INFO     | httpx | HTTP Request: GET http://127.0.0.1:8122/api/csrf-token?client=9df661f4-46f6-48e6-8c2a-e615316c637c "HTTP/1.1 422 Unprocessable Content"
-2026-11-10 04:42:10 | INFO     | httpx | HTTP Request: POST http://127.0.0.1:8122/api/flows/ "HTTP/1.1 200 OK"
-2026-11-10 04:42:10 | INFO     | httpx | HTTP Request: POST http://127.0.0.1:8122/api/flow_runs/ "HTTP/1.1 201 Created"
-2026-11-10 04:42:10 | INFO     | httpx | HTTP Request: POST http://127.0.0.1:8122/api/flow_runs/5252f883-a609-4975-af0c-cf378909746a/set_state "HTTP/1.1 201 Created"
-2026-11-10 04:42:10 | INFO     | httpx | HTTP Request: GET http://127.0.0.1:8122/api/flow_runs/5252f883-a609-4975-af0c-cf378909746a "HTTP/1.1 200 OK"
-2026-11-10 04:42:10 | INFO     | httpx | HTTP Request: GET http://127.0.0.1:8122/api/admin/storage "HTTP/1.1 200 OK"
-2026-11-10 04:42:10 | INFO     | httpx | HTTP Request: GET http://127.0.0.1:8122/api/admin/storage "HTTP/1.1 200 OK"
-2026-11-10 04:42:10 | INFO     | src.pipeline | Starting stage: ingest
-2026-11-10 04:42:10 | INFO     | src.ingestion.ingest | MovieLens already present at D:\_BITS_SEM2\Data Management for ML\aSSIGNMENT2\data\raw\ml-100k
-2026-11-10 04:42:10 | INFO     | httpx | HTTP Request: GET http://127.0.0.1:8122/api/admin/version "HTTP/1.1 200 OK"
-2026-11-10 04:42:10 | INFO     | httpx | HTTP Request: GET http://127.0.0.1:8122/api/flows/ca51da65-093a-4aae-81b4-215675c3fd99 "HTTP/1.1 200 OK"
-2026-11-10 04:42:10 | WARNING  | src.ingestion.ingest | Injected validation faults: missing values, duplicates, invalid ratings, invalid timestamps, wrong dtypes, and orphan user/item references.
-2026-11-10 04:42:10 | INFO     | src.ingestion.ingest | Ingested movielens100k data: users=945 items=1684 interactions=100001
-2026-11-10 04:42:10 | INFO     | src.ingestion.ingest | Users schema: ['user_id', 'age', 'gender', 'occupation', 'zip']
-2026-11-10 04:42:10 | INFO     | src.ingestion.ingest | Items schema: ['item_id', 'title', 'release_date', 'video_release_date', 'imdb_url', 'genre_0', 'genre_1', 'genre_2', 'genre_3', 'genre_4', 'genre_5', 'genre_6', 'genre_7', 'genre_8', 'genre_9', 'genre_10', 'genre_11', 'genre_12', 'genre_13', 'genre_14', 'genre_15', 'genre_16', 'genre_17', 'genre_18', 'genres', 'primary_genre']
-2026-11-10 04:42:10 | INFO     | src.ingestion.ingest | Interactions schema: ['user_id', 'item_id', 'rating', 'timestamp']
-2026-11-10 04:42:10 | INFO     | src.pipeline | Finished stage: ingest in 0.35s
-2026-11-10 04:42:10 | INFO     | src.pipeline | Starting stage: validate
-2026-11-10 04:42:12 | INFO     | src.validation.validators | Validated users: in=945 valid=943 rejected=2 pandera=True
-2026-11-10 04:42:12 | INFO     | src.validation.validators | Validated items: in=1684 valid=1682 rejected=2 pandera=True
-2026-11-10 04:42:12 | INFO     | src.validation.validators | Validated interactions: in=100001 valid=99991 rejected=10 pandera=True
-2026-11-10 04:42:12 | WARNING  | src.validation.validators | Validation detected injected faults; rejected rows were quarantined.
-2026-11-10 04:42:12 | INFO     | src.pipeline | Finished stage: validate in 1.54s
-2026-11-10 04:42:12 | INFO     | src.pipeline | Starting stage: prepare
-2026-11-10 04:42:12 | INFO     | src.preparation.prepare | Prepared data: users=943 items=1682 interactions=99991
-2026-11-10 04:42:12 | INFO     | src.pipeline | Finished stage: prepare in 0.08s
-2026-11-10 04:42:12 | INFO     | src.pipeline | Starting stage: transform
-2026-11-10 04:42:12 | INFO     | src.transformation.split | Time split (per_user_last_fraction): train=79614 test=20377; cold-start test users=0 items=71; no test before per-user cutoff=True
-2026-11-10 04:42:12 | INFO     | src.transformation.derived | Created derived datasets: user_activity=943 item_popularity=1611 matrix_shape=[943, 1611] nnz=79614
-2026-11-10 04:42:12 | INFO     | src.pipeline | Finished stage: transform in 0.41s
-2026-11-10 04:42:12 | INFO     | src.pipeline | Starting stage: features
-2026-11-10 04:42:13 | INFO     | src.features.feature_store | Built features as of 1998-04-22 23:10:38+00:00: users=943 items=1682 interactions=79614
-2026-11-10 04:42:13 | INFO     | src.pipeline | Finished stage: features in 0.53s
-2026-11-10 04:42:13 | INFO     | src.pipeline | Starting stage: train
-2026-11-10 04:42:13 | INFO     | src.training.train | Trained models: popularity and matrix_factorization
-2026-11-10 04:42:13 | INFO     | src.pipeline | Finished stage: train in 0.36s
-2026-11-10 04:42:13 | INFO     | src.pipeline | Starting stage: evaluate
-2026-11-10 04:42:14 | INFO     | src.evaluation.evaluate | Evaluated popularity: precision@10=0.0754 recall@10=0.0749 ndcg@10=0.0943 coverage=0.0447 diversity=0.7478
-2026-11-10 04:42:14 | INFO     | src.evaluation.evaluate | Evaluated matrix_factorization: precision@10=0.1320 recall@10=0.1543 ndcg@10=0.1763 coverage=0.2862 diversity=0.7128
-2026-11-10 04:42:15 | INFO     | src.pipeline | Finished stage: evaluate in 1.35s
-2026-11-10 04:42:15 | INFO     | src.pipeline | Starting stage: report
-2026-11-10 04:42:15 | INFO     | src.reporting.pdf_report | Wrote final report to D:\_BITS_SEM2\Data Management for ML\aSSIGNMENT2\reports\final_report.pdf
-2026-11-10 04:42:15 | INFO     | src.pipeline | Finished stage: report in 0.49s
-2026-11-10 04:42:16 | INFO     | src.reporting.figures | Wrote orchestration evidence to D:\_BITS_SEM2\Data Management for ML\aSSIGNMENT2\reports\figures\orchestration_success.png
-2026-11-10 04:42:17 | INFO     | src.training.tracking | Logged MLflow run for popularity
-2026-11-10 04:42:18 | INFO     | src.training.tracking | Logged MLflow run for matrix_factorization
-2026-11-10 04:42:18 | INFO     | __main__ | Prefect flow complete: {'source': 'movielens100k', 'faults_injected': True, 'metrics': {'popularity': {'precision_at_10': 0.07544052863436124, 'recall_at_10': 0.07485327329651693, 'ndcg_at_10': 0.09431555948519954, 'coverage_at_10': 0.0446927374301676, 'diversity_at_10': 0.7478337515585144, 'rmse': 1.0734913709747869, 'mae': 0.8587485920135488, 'evaluated_users': 943, 'users_with_relevant_items': 908, 'catalog_size': 1611, 'k': 10}, 'matrix_factorization': {'precision_at_10': 0.13204845814977975, 'recall_at_10': 0.1543318222013107, 'ndcg_at_10': 0.17634832028669178, 'coverage_at_10': 0.2861576660459342, 'diversity_at_10': 0.7128079629550272, 'rmse': 1.0082444258886791, 'mae': 0.7914820035582012, 'evaluated_users': 943, 'users_with_relevant_items': 908, 'catalog_size': 1611, 'k': 10}}}
-2026-11-10 04:42:18 | INFO     | httpx | HTTP Request: POST http://127.0.0.1:8122/api/flow_runs/5252f883-a609-4975-af0c-cf378909746a/set_state "HTTP/1.1 201 Created"
+2026-11-10 04:44:33 | INFO     | httpx | HTTP Request: GET http://127.0.0.1:8092/api/health "HTTP/1.1 200 OK"
+2026-11-10 04:44:33 | INFO     | httpx | HTTP Request: GET http://127.0.0.1:8092/api/admin/version "HTTP/1.1 200 OK"
+2026-11-10 04:44:33 | INFO     | httpx | HTTP Request: GET http://127.0.0.1:8092/api/csrf-token?client=b8f8097b-ab72-46bc-a0e1-f10152060e5a "HTTP/1.1 422 Unprocessable Content"
+2026-11-10 04:44:33 | INFO     | httpx | HTTP Request: POST http://127.0.0.1:8092/api/flows/ "HTTP/1.1 200 OK"
+2026-11-10 04:44:33 | INFO     | httpx | HTTP Request: POST http://127.0.0.1:8092/api/flow_runs/ "HTTP/1.1 201 Created"
+2026-11-10 04:44:33 | INFO     | httpx | HTTP Request: POST http://127.0.0.1:8092/api/flow_runs/d9e9c357-c2ba-4239-804a-82c4f2d94580/set_state "HTTP/1.1 201 Created"
+2026-11-10 04:44:33 | INFO     | httpx | HTTP Request: GET http://127.0.0.1:8092/api/flow_runs/d9e9c357-c2ba-4239-804a-82c4f2d94580 "HTTP/1.1 200 OK"
+2026-11-10 04:44:33 | INFO     | httpx | HTTP Request: GET http://127.0.0.1:8092/api/admin/storage "HTTP/1.1 200 OK"
+2026-11-10 04:44:33 | INFO     | httpx | HTTP Request: GET http://127.0.0.1:8092/api/admin/storage "HTTP/1.1 200 OK"
+2026-11-10 04:44:33 | INFO     | src.pipeline | Starting stage: ingest
+2026-11-10 04:44:33 | INFO     | src.ingestion.ingest | MovieLens already present at D:\_BITS_SEM2\Data Management for ML\aSSIGNMENT2\data\raw\ml-100k
+2026-11-10 04:44:33 | INFO     | httpx | HTTP Request: GET http://127.0.0.1:8092/api/admin/version "HTTP/1.1 200 OK"
+2026-11-10 04:44:33 | INFO     | httpx | HTTP Request: GET http://127.0.0.1:8092/api/flows/ca51da65-093a-4aae-81b4-215675c3fd99 "HTTP/1.1 200 OK"
+2026-11-10 04:44:33 | WARNING  | src.ingestion.ingest | Injected validation faults: missing values, duplicates, invalid ratings, invalid timestamps, wrong dtypes, and orphan user/item references.
+2026-11-10 04:44:34 | INFO     | src.ingestion.ingest | Ingested movielens100k data: users=945 items=1684 interactions=100001
+2026-11-10 04:44:34 | INFO     | src.ingestion.ingest | Users schema: ['user_id', 'age', 'gender', 'occupation', 'zip']
+2026-11-10 04:44:34 | INFO     | src.ingestion.ingest | Items schema: ['item_id', 'title', 'release_date', 'video_release_date', 'imdb_url', 'genre_0', 'genre_1', 'genre_2', 'genre_3', 'genre_4', 'genre_5', 'genre_6', 'genre_7', 'genre_8', 'genre_9', 'genre_10', 'genre_11', 'genre_12', 'genre_13', 'genre_14', 'genre_15', 'genre_16', 'genre_17', 'genre_18', 'genres', 'primary_genre']
+2026-11-10 04:44:34 | INFO     | src.ingestion.ingest | Interactions schema: ['user_id', 'item_id', 'rating', 'timestamp']
+2026-11-10 04:44:34 | INFO     | src.pipeline | Finished stage: ingest in 0.37s
+2026-11-10 04:44:34 | INFO     | src.pipeline | Starting stage: validate
+2026-11-10 04:44:35 | INFO     | src.validation.validators | Validated users: in=945 valid=943 rejected=2 pandera=True
+2026-11-10 04:44:35 | INFO     | src.validation.validators | Validated items: in=1684 valid=1682 rejected=2 pandera=True
+2026-11-10 04:44:35 | INFO     | src.validation.validators | Validated interactions: in=100001 valid=99991 rejected=10 pandera=True
+2026-11-10 04:44:35 | WARNING  | src.validation.validators | Validation detected injected faults; rejected rows were quarantined.
+2026-11-10 04:44:35 | INFO     | src.pipeline | Finished stage: validate in 1.55s
+2026-11-10 04:44:35 | INFO     | src.pipeline | Starting stage: prepare
+2026-11-10 04:44:35 | INFO     | src.preparation.prepare | Prepared data: users=943 items=1682 interactions=99991
+2026-11-10 04:44:35 | INFO     | src.pipeline | Finished stage: prepare in 0.10s
+2026-11-10 04:44:35 | INFO     | src.pipeline | Starting stage: transform
+2026-11-10 04:44:36 | INFO     | src.transformation.split | Time split (per_user_last_fraction): train=79614 test=20377; cold-start test users=0 items=71; no test before per-user cutoff=True
+2026-11-10 04:44:36 | INFO     | src.transformation.derived | Created derived datasets: user_activity=943 item_popularity=1611 matrix_shape=[943, 1611] nnz=79614
+2026-11-10 04:44:36 | INFO     | src.pipeline | Finished stage: transform in 0.35s
+2026-11-10 04:44:36 | INFO     | src.pipeline | Starting stage: features
+2026-11-10 04:44:36 | INFO     | src.features.feature_store | Built features as of 1998-04-22 23:10:38+00:00: users=943 items=1682 interactions=79614
+2026-11-10 04:44:36 | INFO     | src.pipeline | Finished stage: features in 0.45s
+2026-11-10 04:44:36 | INFO     | src.pipeline | Starting stage: train
+2026-11-10 04:44:36 | INFO     | src.training.train | Trained models: popularity and matrix_factorization
+2026-11-10 04:44:36 | INFO     | src.pipeline | Finished stage: train in 0.35s
+2026-11-10 04:44:37 | INFO     | src.pipeline | Starting stage: evaluate
+2026-11-10 04:44:37 | INFO     | src.evaluation.evaluate | Evaluated popularity: precision@10=0.0754 recall@10=0.0749 ndcg@10=0.0943 coverage=0.0447 diversity=0.7478
+2026-11-10 04:44:38 | INFO     | src.evaluation.evaluate | Evaluated matrix_factorization: precision@10=0.1320 recall@10=0.1543 ndcg@10=0.1763 coverage=0.2862 diversity=0.7128
+2026-11-10 04:44:38 | INFO     | src.pipeline | Finished stage: evaluate in 1.35s
+2026-11-10 04:44:38 | INFO     | src.pipeline | Starting stage: report
+2026-11-10 04:44:39 | INFO     | src.reporting.pdf_report | Wrote final report to D:\_BITS_SEM2\Data Management for ML\aSSIGNMENT2\reports\final_report.pdf
+2026-11-10 04:44:39 | INFO     | src.pipeline | Finished stage: report in 0.47s
+2026-11-10 04:44:39 | INFO     | src.reporting.figures | Wrote orchestration evidence to D:\_BITS_SEM2\Data Management for ML\aSSIGNMENT2\reports\figures\orchestration_success.png
+2026-11-10 04:44:40 | INFO     | src.training.tracking | Logged MLflow run for popularity
+2026-11-10 04:44:40 | INFO     | src.training.tracking | Logged MLflow run for matrix_factorization
+2026-11-10 04:44:40 | INFO     | __main__ | Prefect flow complete: {'source': 'movielens100k', 'faults_injected': True, 'metrics': {'popularity': {'precision_at_10': 0.07544052863436124, 'recall_at_10': 0.07485327329651693, 'ndcg_at_10': 0.09431555948519954, 'coverage_at_10': 0.0446927374301676, 'diversity_at_10': 0.7478337515585144, 'rmse': 1.0734913709747869, 'mae': 0.8587485920135488, 'evaluated_users': 943, 'users_with_relevant_items': 908, 'catalog_size': 1611, 'k': 10}, 'matrix_factorization': {'precision_at_10': 0.13204845814977975, 'recall_at_10': 0.1543318222013107, 'ndcg_at_10': 0.17634832028669178, 'coverage_at_10': 0.2861576660459342, 'diversity_at_10': 0.7128079629550272, 'rmse': 1.0082444258886791, 'mae': 0.7914820035582012, 'evaluated_users': 943, 'users_with_relevant_items': 908, 'catalog_size': 1611, 'k': 10}}}
+2026-11-10 04:44:40 | INFO     | httpx | HTTP Request: POST http://127.0.0.1:8092/api/flow_runs/d9e9c357-c2ba-4239-804a-82c4f2d94580/set_state "HTTP/1.1 201 Created"

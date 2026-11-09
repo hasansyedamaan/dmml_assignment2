@@ -114,9 +114,9 @@ FEATURE_REGISTRY: List[Dict[str, str]] = [
     {
         "feature": "item_age_years",
         "entity": "item",
-        "description": "Age of the item at the as-of date, when a release date is known.",
-        "formula": "as_of_year - release_year",
-        "dtype": "float",
+        "description": "Age of the item at the as-of date; missing release dates use the median age.",
+        "formula": "as_of_year - release_year, median fallback",
+        "dtype": "int",
         "source_table": "items",
         "used_by": "training, prediction",
     },

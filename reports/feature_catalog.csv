@@ -10,7 +10,7 @@ avg_rating,item,Mean rating received by the item in training.,mean(rating) group
 rating_count,item,Number of ratings received by the item in training.,count(rating) grouped by item_id,int,train interactions,"training, prediction"
 category,item,Primary genre of the item.,first genre in the item's genre list,string,items,"training, prediction"
 genre_*,item,One-hot genre indicators for the item.,"1 if the item belongs to the genre, else 0",int (one-hot),items,"training, prediction, diversity"
-item_age_years,item,"Age of the item at the as-of date, when a release date is known.",as_of_year - release_year,float,items,"training, prediction"
+item_age_years,item,Age of the item at the as-of date; missing release dates use the median age.,"as_of_year - release_year, median fallback",int,items,"training, prediction"
 rating,interaction,Observed explicit rating (missing at prediction time).,raw rating,float,train interactions,training
 timestamp,interaction,UTC timestamp of the interaction.,unix timestamp converted to UTC,datetime,train interactions,"training, prediction"
 hour,interaction,Hour of day of the interaction.,timestamp.hour,int,train interactions,"training, prediction"
