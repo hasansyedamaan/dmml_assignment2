@@ -1,0 +1,26 @@
+flowchart TD
+    A[Raw CSVs / MovieLens 100K] --> B[Ingestion]
+    B --> C[Validation]
+    C -->|valid rows| D[Preparation]
+    C -->|invalid rows| E[(data/errors)]
+    D --> F[Time-based Split]
+    F --> G[Train / Test]
+    G --> H[Derived Datasets]
+    H --> I[(data/processed)]
+    G --> J[Feature Store]
+    J --> K[(data/features)]
+    K --> L[Popularity Baseline]
+    K --> M[Matrix Factorization]
+    L --> N[Evaluation]
+    M --> N
+    N --> O[Model Comparison + Figures]
+    N --> P[(MLflow ./mlruns)]
+    O --> Q[(reports)]
+    R[Prefect Flow / run_pipeline.py] -. orchestrates .-> B
+    R -. orchestrates .-> C
+    R -. orchestrates .-> D
+    R -. orchestrates .-> F
+    R -. orchestrates .-> J
+    R -. orchestrates .-> L
+    R -. orchestrates .-> M
+    R -. orchestrates .-> N

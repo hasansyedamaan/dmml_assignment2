@@ -1,0 +1,11 @@
+user_id,item_id,rating,timestamp,failed_rules,dataset
+62,257,,879372434,missing_required_value,interactions
+200,222,9.0,876042340,invalid_rating,interactions
+210,40,-1.0,891035994,invalid_rating,interactions
+224,29,3.0,2524608000,invalid_timestamp,interactions
+not-an-integer,785,3.0,879485318,incorrect_dtype,interactions
+999999,387,5.0,879270459,orphan_user_id,interactions
+194,999999,2.0,879539794,orphan_item_id,interactions
+291,1042,4.0,0,invalid_timestamp,interactions
+234,1184,2.0,not-a-timestamp,incorrect_dtype;invalid_timestamp,interactions
+186,302,3.0,891717742,duplicate_record,interactions

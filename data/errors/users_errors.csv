@@ -1,0 +1,3 @@
+user_id,age,gender,occupation,zip,failed_rules,dataset
+999998,24,,technician,85711,missing_required_value,users
+2,53,F,other,94043,duplicate_record,users

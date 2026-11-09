@@ -1,0 +1,25 @@
+{
+  "models": {
+    "popularity": "D:\\_BITS_SEM2\\Data Management for ML\\aSSIGNMENT2\\models\\popularity.joblib",
+    "matrix_factorization": "D:\\_BITS_SEM2\\Data Management for ML\\aSSIGNMENT2\\models\\matrix_factorization.joblib"
+  },
+  "params": {
+    "popularity": {
+      "model": "popularity",
+      "weighting": "count",
+      "train_rows": 79614,
+      "catalog_size": 1611
+    },
+    "matrix_factorization": {
+      "model": "matrix_factorization",
+      "n_components": 32,
+      "n_iter": 12,
+      "random_state": 42,
+      "clip_min": 1.0,
+      "clip_max": 5.0,
+      "train_rows": 79614,
+      "catalog_size": 1611,
+      "explained_variance": 0.4496729448697252
+    }
+  }
+}

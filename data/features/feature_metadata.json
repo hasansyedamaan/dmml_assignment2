@@ -1,0 +1,27 @@
+{
+  "as_of_date": "1998-04-22 23:10:38+00:00",
+  "as_of_source": "train_max",
+  "train_max_timestamp": "1998-04-22 23:10:38+00:00",
+  "train_rows": 79614,
+  "user_feature_rows": 943,
+  "item_feature_rows": 1682,
+  "interaction_feature_rows": 79614,
+  "defaults": {
+    "user": {
+      "avg_rating": 3.5806139623684277,
+      "activity_count": 0,
+      "preferred_category": "unknown",
+      "days_since_last_interaction": 9999.0,
+      "rating_std": 0.0,
+      "distinct_items_count": 0
+    },
+    "item": {
+      "popularity": 0,
+      "avg_rating": 3.5806139623684277,
+      "rating_count": 0,
+      "category": "unknown",
+      "item_age_years": null
+    }
+  },
+  "leakage_guard": "All features are computed from the train split only."
+}

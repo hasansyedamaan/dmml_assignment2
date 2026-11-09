@@ -1,0 +1,16 @@
+{
+  "train_rows": 79614,
+  "user_activity_rows": 943,
+  "item_popularity_rows": 1611,
+  "user_item_matrix": {
+    "shape": [
+      943,
+      1611
+    ],
+    "nnz": 79614,
+    "user_index_file": "D:\\_BITS_SEM2\\Data Management for ML\\aSSIGNMENT2\\data\\processed\\user_index.csv",
+    "item_index_file": "D:\\_BITS_SEM2\\Data Management for ML\\aSSIGNMENT2\\data\\processed\\item_index.csv",
+    "matrix_file": "D:\\_BITS_SEM2\\Data Management for ML\\aSSIGNMENT2\\data\\processed\\user_item_matrix.npz"
+  },
+  "source": "train split only (no leakage)"
+}

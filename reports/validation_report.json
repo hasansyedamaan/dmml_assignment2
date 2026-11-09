@@ -1,0 +1,183 @@
+{
+  "summary": {
+    "faults_injected": true,
+    "datasets": {
+      "users": {
+        "rows_in": 945,
+        "rows_valid": 943,
+        "rows_rejected": 2,
+        "missing_counts": {
+          "user_id": 0,
+          "age": 0,
+          "gender": 1,
+          "occupation": 0,
+          "zip": 0
+        },
+        "pandera_schema_passed": true,
+        "pandera_error": null,
+        "error_file": "D:\\_BITS_SEM2\\Data Management for ML\\aSSIGNMENT2\\data\\errors\\users_errors.parquet"
+      },
+      "items": {
+        "rows_in": 1684,
+        "rows_valid": 1682,
+        "rows_rejected": 2,
+        "missing_counts": {
+          "item_id": 0,
+          "title": 1
+        },
+        "pandera_schema_passed": true,
+        "pandera_error": null,
+        "error_file": "D:\\_BITS_SEM2\\Data Management for ML\\aSSIGNMENT2\\data\\errors\\items_errors.parquet"
+      },
+      "interactions": {
+        "rows_in": 100001,
+        "rows_valid": 99991,
+        "rows_rejected": 10,
+        "missing_counts": {
+          "user_id": 0,
+          "item_id": 0,
+          "rating": 1,
+          "timestamp": 0
+        },
+        "pandera_schema_passed": true,
+        "pandera_error": null,
+        "error_file": "D:\\_BITS_SEM2\\Data Management for ML\\aSSIGNMENT2\\data\\errors\\interactions_errors.parquet"
+      }
+    },
+    "overall_status": "FAULTS_DETECTED"
+  },
+  "checks": [
+    {
+      "dataset": "users",
+      "check": "missing_required_value",
+      "count": 1,
+      "status": "FAIL"
+    },
+    {
+      "dataset": "users",
+      "check": "duplicate_record",
+      "count": 1,
+      "status": "FAIL"
+    },
+    {
+      "dataset": "users",
+      "check": "incorrect_dtype",
+      "count": 0,
+      "status": "PASS"
+    },
+    {
+      "dataset": "users",
+      "check": "invalid_age",
+      "count": 0,
+      "status": "PASS"
+    },
+    {
+      "dataset": "users",
+      "check": "invalid_gender",
+      "count": 0,
+      "status": "PASS"
+    },
+    {
+      "dataset": "users",
+      "check": "invalid_id",
+      "count": 0,
+      "status": "PASS"
+    },
+    {
+      "dataset": "users",
+      "check": "pandera_schema",
+      "count": 0,
+      "status": "PASS"
+    },
+    {
+      "dataset": "items",
+      "check": "missing_required_value",
+      "count": 1,
+      "status": "FAIL"
+    },
+    {
+      "dataset": "items",
+      "check": "duplicate_record",
+      "count": 1,
+      "status": "FAIL"
+    },
+    {
+      "dataset": "items",
+      "check": "incorrect_dtype",
+      "count": 0,
+      "status": "PASS"
+    },
+    {
+      "dataset": "items",
+      "check": "invalid_date",
+      "count": 0,
+      "status": "PASS"
+    },
+    {
+      "dataset": "items",
+      "check": "invalid_id",
+      "count": 0,
+      "status": "PASS"
+    },
+    {
+      "dataset": "items",
+      "check": "pandera_schema",
+      "count": 0,
+      "status": "PASS"
+    },
+    {
+      "dataset": "interactions",
+      "check": "missing_required_value",
+      "count": 1,
+      "status": "FAIL"
+    },
+    {
+      "dataset": "interactions",
+      "check": "duplicate_record",
+      "count": 1,
+      "status": "FAIL"
+    },
+    {
+      "dataset": "interactions",
+      "check": "incorrect_dtype",
+      "count": 2,
+      "status": "FAIL"
+    },
+    {
+      "dataset": "interactions",
+      "check": "invalid_rating",
+      "count": 2,
+      "status": "FAIL"
+    },
+    {
+      "dataset": "interactions",
+      "check": "invalid_timestamp",
+      "count": 3,
+      "status": "FAIL"
+    },
+    {
+      "dataset": "interactions",
+      "check": "invalid_id",
+      "count": 0,
+      "status": "PASS"
+    },
+    {
+      "dataset": "interactions",
+      "check": "orphan_user_id",
+      "count": 1,
+      "status": "FAIL"
+    },
+    {
+      "dataset": "interactions",
+      "check": "orphan_item_id",
+      "count": 1,
+      "status": "FAIL"
+    },
+    {
+      "dataset": "interactions",
+      "check": "pandera_schema",
+      "count": 0,
+      "status": "PASS"
+    }
+  ]
+}

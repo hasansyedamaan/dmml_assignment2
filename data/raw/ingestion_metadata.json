@@ -1,0 +1,52 @@
+{
+  "source": "movielens100k",
+  "faults_injected": true,
+  "rows": {
+    "users": 945,
+    "items": 1684,
+    "interactions": 100001
+  },
+  "columns": {
+    "users": [
+      "user_id",
+      "age",
+      "gender",
+      "occupation",
+      "zip"
+    ],
+    "items": [
+      "item_id",
+      "title",
+      "release_date",
+      "video_release_date",
+      "imdb_url",
+      "genre_0",
+      "genre_1",
+      "genre_2",
+      "genre_3",
+      "genre_4",
+      "genre_5",
+      "genre_6",
+      "genre_7",
+      "genre_8",
+      "genre_9",
+      "genre_10",
+      "genre_11",
+      "genre_12",
+      "genre_13",
+      "genre_14",
+      "genre_15",
+      "genre_16",
+      "genre_17",
+      "genre_18",
+      "genres",
+      "primary_genre"
+    ],
+    "interactions": [
+      "user_id",
+      "item_id",
+      "rating",
+      "timestamp"
+    ]
+  }
+}
