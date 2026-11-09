@@ -34,6 +34,7 @@ The CLI runs the complete pipeline. For stage-level debugging, the stage functio
 ```python
 from src.utils.config import load_config
 from src.pipeline import (
+    finalize_run,
     stage_evaluate,
     stage_features,
     stage_ingest,
@@ -52,15 +53,14 @@ transformed = stage_transform(config, prepared)
 features = stage_features(config, transformed)
 trained = stage_train(config, transformed)
 evaluation = stage_evaluate(config, transformed, trained)
-stage_report(
-    config,
-    {
-        "raw": raw,
-        "evaluation": evaluation,
-        "models": trained["models"],
-        "model_params": trained["model_params"],
-    },
-)
+state = {
+    "raw": raw,
+    "evaluation": evaluation,
+    "models": trained["models"],
+    "model_params": trained["model_params"],
+}
+stage_report(config, state)
+finalize_run(config, state)
 ```
 
 Each stage consumes the preceding stage's dictionary. To run one stage in isolation,
