@@ -1,0 +1,16 @@
+# Direct dependencies pinned to versions verified on this machine (Python 3.15).
+# PyYAML has no cp315 wheel and this machine has no MSVC build tools, so a
+# pure-Python wheel built from the same 6.0.3 source is vendored locally.
+pandas==3.1.1
+numpy==2.5.4
+scipy==1.18.1
+pyarrow==26.0.1
+scikit-learn==1.9.1
+matplotlib==3.11.2
+reportlab==5.1.0
+pandera==0.35.0
+mlflow==3.18.0
+prefect==3.9.2
+./vendor/pyyaml-6.0.3-py3-none-any.whl
+pytest==9.2.0
+pypdf==7.0.0
