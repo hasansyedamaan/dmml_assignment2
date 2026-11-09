@@ -26,6 +26,46 @@ mlflow ui --backend-store-uri ./mlruns  # inspect the two model runs
 The pipeline writes all artifacts under `reports/`, `data/`, `models/`, and `mlruns/`.
 Run it from the repository root so relative configured paths resolve correctly.
 
+## Running individual stages
+
+The CLI runs the complete pipeline. For stage-level debugging, the stage functions in
+`src/pipeline.py` are importable and use the same config and logging path:
+
+```python
+from src.utils.config import load_config
+from src.pipeline import (
+    stage_evaluate,
+    stage_features,
+    stage_ingest,
+    stage_prepare,
+    stage_report,
+    stage_train,
+    stage_transform,
+    stage_validate,
+)
+
+config = load_config()
+raw = stage_ingest(config, inject_faults_flag=False, skip_download=True)
+validated = stage_validate(config, raw)
+prepared = stage_prepare(config, validated)
+transformed = stage_transform(config, prepared)
+features = stage_features(config, transformed)
+trained = stage_train(config, transformed)
+evaluation = stage_evaluate(config, transformed, trained)
+stage_report(
+    config,
+    {
+        "raw": raw,
+        "evaluation": evaluation,
+        "models": trained["models"],
+        "model_params": trained["model_params"],
+    },
+)
+```
+
+Each stage consumes the preceding stage's dictionary. To run one stage in isolation,
+construct its input from the persisted Parquet files or call the preceding stage first.
+
 ## Dataset and fallback
 
 - Primary source: MovieLens 100K from
@@ -39,8 +79,9 @@ Run it from the repository root so relative configured paths resolve correctly.
 
 ## Architecture
 
-See `reports/architecture.mmd` (Mermaid source) and
-`reports/figures/architecture.png` (rendered diagram). The flow is:
+![Pipeline architecture](reports/figures/architecture.png)
+
+Mermaid source: `reports/architecture.mmd`. The flow is:
 
 ```text
 raw -> ingestion -> validation -> preparation -> time split -> derived datasets
@@ -50,6 +91,37 @@ raw -> ingestion -> validation -> preparation -> time split -> derived datasets
 
 Invalid rows never enter the clean path. They are written to `data/errors/` with a
 `failed_rules` column and a `dataset` column.
+
+## Project structure
+
+The brief's `recommendation-pipeline/` tree is mapped directly onto this repository root:
+
+```text
+.
+├── configs/                 # config.yaml: paths, K, split, seeds, model params
+├── dags/                    # Prefect flow
+├── data/
+│   ├── raw/                 # unchanged raw copies + ingestion metadata
+│   ├── processed/           # cleaned tables, train/test, derived datasets
+│   ├── features/            # user/item/interaction feature parquet
+│   └── errors/              # quarantined rows with failed_rules
+├── models/                  # serialized recommenders + metadata
+├── reports/                 # reports, figures, PDF, run log, stage status
+├── src/
+│   ├── ingestion/
+│   ├── validation/
+│   ├── preparation/
+│   ├── transformation/
+│   ├── features/
+│   ├── training/
+│   ├── evaluation/
+│   ├── reporting/
+│   └── utils/
+├── tests/
+├── run_pipeline.py
+├── requirements.txt
+└── README.md
+```
 
 ## Configuration
 
@@ -85,6 +157,11 @@ The validation stage checks:
 The verified demo run produced `945 -> 943` users, `1684 -> 1682` items, and
 `100001 -> 99991` interactions, with every rejected row quarantined under
 `data/errors/`. See `reports/validation_report.md`, `.csv`, and `.json`.
+
+Preparation applies documented fallbacks only to rows that survive validation: rows with
+missing IDs, ratings, or timestamps are dropped; missing age uses the median; missing
+gender becomes `U`; missing occupation/zip becomes `unknown`; missing titles become
+`Untitled`; and duplicate IDs/interactions keep the first occurrence.
 
 ## Split and cold start
 
@@ -151,15 +228,19 @@ The verified run produced:
 
 - `run_pipeline.py` is the plain-Python CLI and runs the same stage functions in order.
 - `dags/recommendation_flow.py` is a Prefect flow with one retryable task per stage and
-  explicit dependencies. It can be run directly:
+  explicit dependencies. It can be run directly (Prefect starts an ephemeral local
+  server automatically), or against a local Prefect server:
 
   ```powershell
+  prefect server start          # terminal 1, optional
   python dags/recommendation_flow.py
   python dags/recommendation_flow.py --inject-faults
   ```
 
 - MLflow uses the local file store `./mlruns`, one experiment, and one run per model.
-  Parameters, metrics, and small report/model artifacts are logged.
+  Parameters include seed, K, split method/fraction, cutoff timestamps, and cold-start
+  counts; tags include the dataset and git commit. Metrics and small report/model
+  artifacts are logged.
 - `reports/run_log.txt` is the real run log.
 - `reports/figures/orchestration_success.png` is generated from the real stage timings
   and is labelled as **not** a Prefect UI screenshot. Replace it with a real Prefect UI

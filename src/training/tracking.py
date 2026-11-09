@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import logging
 import os
 import subprocess
@@ -22,6 +23,7 @@ LOGGER = logging.getLogger(__name__)
 
 
 def _git_commit() -> str:
+    """Return the current commit, falling back to reading .git when git is absent."""
     try:
         result = subprocess.run(
             ["git", "rev-parse", "HEAD"],
@@ -30,8 +32,20 @@ def _git_commit() -> str:
             timeout=5,
             check=False,
         )
-        return result.stdout.strip() if result.returncode == 0 else "unavailable"
+        if result.returncode == 0 and result.stdout.strip():
+            return result.stdout.strip()
     except Exception:
+        pass
+
+    git_dir = Path(__file__).resolve().parents[2] / ".git"
+    try:
+        head = (git_dir / "HEAD").read_text(encoding="utf-8").strip()
+        if head.startswith("ref: "):
+            ref_path = git_dir / head.split("ref: ", 1)[1]
+            if ref_path.exists():
+                return ref_path.read_text(encoding="utf-8").strip()
+        return head or "unavailable"
+    except OSError:
         return "unavailable"
 
 
@@ -57,11 +71,14 @@ def log_mlflow_runs(
     dataset_source = "movielens100k"
     ingestion_metadata = project_path(config, "data_raw") / "ingestion_metadata.json"
     if ingestion_metadata.exists():
-        import json
-
         dataset_source = json.loads(ingestion_metadata.read_text(encoding="utf-8")).get(
             "source", dataset_source
         )
+
+    split_metadata_path = project_path(config, "data_processed") / "split_metadata.json"
+    split_metadata: Dict[str, Any] = {}
+    if split_metadata_path.exists():
+        split_metadata = json.loads(split_metadata_path.read_text(encoding="utf-8"))
 
     for model_name, model in models.items():
         with mlflow.start_run(run_name=model_name):
@@ -80,7 +97,31 @@ def log_mlflow_runs(
                     "k": int(config["models"]["k"]),
                     "secondary_k": int(config["models"]["secondary_k"]),
                     "seed": int(config["project"]["seed"]),
-                    "split_quantile": float(config["split"]["quantile"]),
+                    "split_method": split_metadata.get(
+                        "method", config["split"].get("method", "unknown")
+                    ),
+                    "split_test_fraction": split_metadata.get(
+                        "test_fraction", config["split"].get("test_fraction")
+                    ),
+                    "split_min_test_interactions": split_metadata.get(
+                        "min_test_interactions", config["split"].get("min_test_interactions")
+                    ),
+                    "split_quantile": split_metadata.get(
+                        "quantile", config["split"].get("quantile")
+                    ),
+                    "split_train_rows": split_metadata.get("train_rows"),
+                    "split_test_rows": split_metadata.get("test_rows"),
+                    "split_train_users": split_metadata.get("train_users"),
+                    "split_test_users": split_metadata.get("test_users"),
+                    "split_train_items": split_metadata.get("train_items"),
+                    "split_test_items": split_metadata.get("test_items"),
+                    "split_cold_start_test_users": split_metadata.get("cold_start_test_users"),
+                    "split_cold_start_test_items": split_metadata.get("cold_start_test_items"),
+                    "split_cutoff_min": split_metadata.get("cutoff_min"),
+                    "split_cutoff_median": split_metadata.get("cutoff_median"),
+                    "split_cutoff_max": split_metadata.get("cutoff_max"),
+                    "split_train_max_timestamp": split_metadata.get("train_max_timestamp"),
+                    "split_test_min_timestamp": split_metadata.get("test_min_timestamp"),
                     "relevance_threshold": int(config["evaluation"]["relevance_threshold"]),
                 }
             )
