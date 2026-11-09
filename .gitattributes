@@ -1,0 +1,8 @@
+* text=auto
+*.pdf binary
+*.png binary
+*.parquet binary
+*.joblib binary
+*.npz binary
+*.whl binary
+*.docx binary
