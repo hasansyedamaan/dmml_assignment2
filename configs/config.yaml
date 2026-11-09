@@ -1,0 +1,75 @@
+project:
+  name: "End-to-End Data Management Pipeline for a Recommendation System"
+  course: "Data Management for Machine Learning (DM4ML), Assignment 2"
+  author: "Syed Amaan Hasan"
+  student_id: "2025AG05941"
+  seed: 42
+
+paths:
+  data_raw: data/raw
+  data_processed: data/processed
+  data_features: data/features
+  data_errors: data/errors
+  models: models
+  reports: reports
+  figures: reports/figures
+  stage_status: reports/stage_status
+  mlruns: mlruns
+  dataset_dir: data/raw/ml-100k
+  dataset_zip: data/raw/ml-100k.zip
+
+dataset:
+  source: movielens100k
+  url: "https://files.grouplens.org/datasets/movielens/ml-100k.zip"
+  fallback_synthetic: true
+  synthetic_users: 400
+  synthetic_items: 250
+  synthetic_interactions: 20000
+  synthetic_start: "2023-01-01"
+  synthetic_end: "2024-12-31"
+
+split:
+  # Per-user last-fraction split is time-based and avoids cold-start users.
+  # Set method to global_time_quantile to use the alternative global cutoff.
+  method: per_user_last_fraction
+  test_fraction: 0.2
+  min_test_interactions: 1
+  quantile: 0.8
+
+validation:
+  rating_min: 1
+  rating_max: 5
+  min_timestamp: "1990-01-01"
+  max_timestamp: "now"
+  inject_faults: false
+  duplicate_key:
+    users: ["user_id"]
+    items: ["item_id"]
+    interactions: ["user_id", "item_id", "timestamp"]
+
+features:
+  as_of_date: train_max
+  recency_unit: days
+
+models:
+  k: 10
+  secondary_k: 5
+  popularity:
+    weighting: count
+  matrix_factorization:
+    n_components: 32
+    n_iter: 12
+    random_state: 42
+    clip_min: 1.0
+    clip_max: 5.0
+
+evaluation:
+  relevance_threshold: 4
+  diversity_metric: genre_cosine
+
+mlflow:
+  tracking_uri: mlruns
+  experiment_name: dm4ml-recommendation-pipeline
+
+reporting:
+  final_report_title: "End-to-End Data Management Pipeline for a Recommendation System"

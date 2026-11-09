@@ -1,0 +1,25 @@
+# Environment and caches
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.tmp_pyyaml/
+*.egg-info/
+.ipynb_checkpoints/
+
+# Bulk experiment tracking (regenerate with the pipeline; keep a local store only)
+mlruns/
+
+# Large raw data (download with the pipeline; do not commit MovieLens bulk files)
+data/raw/ml-100k/
+data/raw/*.zip
+data/raw/*.csv
+
+# Keep small evidence artifacts under data/processed, data/features, and data/errors
+# (they are intentionally not ignored).
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
