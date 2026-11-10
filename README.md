@@ -253,7 +253,8 @@ The reported run produced:
 | Figures | `reports/figures/` |
 | Run log | `reports/run_log.txt` |
 | Final report (Markdown) | `reports/final_report.md` |
-| Final PDF (3 pages) | `reports/final_report.pdf` |
+| Final PDF (full, generated from Markdown) | `reports/final_report.pdf` |
+| Final PDF (3-page condensed) | `reports/final_report_3page.pdf` |
 | Architecture | `reports/architecture.mmd`, `reports/figures/architecture.png` |
 | Quarantined rows | `data/errors/` |
 | Processed/feature data | `data/processed/`, `data/features/` |

@@ -7,7 +7,7 @@
 **Branch:** `main`  
 **Report date:** 10 November 2026
 
-> Individual assignment. All code, experiments, tables, figures, and results in this report were produced from the repository in this submission. This Markdown file is the full submission report; the required 2-3 page PDF version is also included as [`final_report.pdf`](final_report.pdf). The checked-in run is recorded in [`run_log.txt`](run_log.txt).
+> Individual assignment. All code, experiments, tables, figures, and results in this report were produced from the repository in this submission. This Markdown file is the full report. The full PDF generated from it is [`final_report.pdf`](final_report.pdf); the earlier 2-3 page condensed version is preserved as [`final_report_3page.pdf`](final_report_3page.pdf). The checked-in run is recorded in [`run_log.txt`](run_log.txt).
 
 ---
 
@@ -29,6 +29,7 @@
 14. [Limitations and future work](#14-limitations-and-future-work)
 15. [Conclusion](#15-conclusion)
 16. [References](#16-references)
+
 - [Appendix A: Configuration](#appendix-a-configuration)
 - [Appendix B: Full feature catalog](#appendix-b-full-feature-catalog)
 - [Appendix C: Submission evidence checklist](#appendix-c-submission-evidence-checklist)
@@ -56,7 +57,7 @@ The project addresses four practical problems:
 3. **Feature leakage:** features used for training and prediction must be computed from training data only, with an explicit reference date.
 4. **Operational reproducibility:** the same pipeline must run from a plain CLI and from a Prefect flow, with configuration-driven paths, seeds, and model parameters, and with tracked experiments.
 
-The result is a modular Python pipeline that writes Parquet/CSV evidence at each stage and produces a complete submission package: source code, tests, configuration, processed data, features, error datasets, serialized models, validation reports, a feature catalog, model-comparison tables and figures, a run log, an architecture diagram, and a 3-page PDF report.
+The result is a modular Python pipeline that writes Parquet/CSV evidence at each stage and produces a complete submission package: source code, tests, configuration, processed data, features, error datasets, serialized models, validation reports, a feature catalog, model-comparison tables and figures, a run log, an architecture diagram, a full PDF report generated from this Markdown, and a 3-page condensed PDF.
 
 ---
 
@@ -172,7 +173,8 @@ mlflow ui --backend-store-uri ./mlruns
 | Figures | [`reports/figures/`](figures/) |
 | Run log | [`run_log.txt`](run_log.txt) |
 | Final report (Markdown) | [`final_report.md`](final_report.md) |
-| Final PDF | [`final_report.pdf`](final_report.pdf) |
+| Full PDF (generated from this report) | [`final_report.pdf`](final_report.pdf) |
+| Condensed PDF (3 pages) | [`final_report_3page.pdf`](final_report_3page.pdf) |
 | Architecture | [`architecture.mmd`](architecture.mmd), [`figures/architecture.png`](figures/architecture.png) |
 | Serialized models | `models/popularity.joblib`, `models/matrix_factorization.joblib` |
 | Tests | [`tests/`](../tests/) |
@@ -191,7 +193,7 @@ mlflow ui --backend-store-uri ./mlruns
 | MLflow | Experiment tracking | Local file store with parameters, metrics, artifacts, and a UI |
 | Prefect | Orchestration | Python-native retries, explicit stage dependencies, local execution |
 | matplotlib | Report figures | Reproducible static figures generated from real run artifacts |
-| ReportLab, pypdf | PDF generation and verification | 3-page PDF report plus programmatic page-count check |
+| ReportLab, pypdf, Chrome | PDF generation and verification | Condensed 3-page PDF, full Markdown-to-PDF build, page-count, and metadata checks |
 | pytest | Unit testing | Small, readable tests for validation, splits, metrics, and models |
 | PyYAML | Configuration parsing | One external config for paths, seeds, split, and model settings |
 
@@ -955,9 +957,9 @@ $ python -m pytest -q
 21 passed
 ```
 
-### 13.4 Validation of the final PDF
+### 13.4 Validation of the final PDFs
 
-The PDF report at [`final_report.pdf`](final_report.pdf) was rendered and checked to be 3 pages, with the student name and ID in the header and real run numbers from the artifacts in this repository.
+The full PDF at [`final_report.pdf`](final_report.pdf) is generated directly from this Markdown report and contains all pages, figures, tables, code blocks, and appendices. The condensed 3-page PDF at [`final_report_3page.pdf`](final_report_3page.pdf) preserves the earlier assignment-length version. Both were rendered and checked to contain the student name and ID and real run numbers from this repository, and their page counts and PDF metadata were verified programmatically.
 
 ---
 
@@ -1111,6 +1113,6 @@ reporting:
 | Model evaluation results for both models | Complete | [`model_comparison.md`](model_comparison.md), `.csv`, [`figures/model_comparison.png`](figures/model_comparison.png) |
 | Orchestration flow and successful-run evidence | Complete | [`dags/recommendation_flow.py`](../dags/recommendation_flow.py), [`run_log.txt`](run_log.txt), [`figures/orchestration_success.png`](figures/orchestration_success.png) |
 | MLflow tracking for both models | Complete | `mlruns/`, experiment `dm4ml-recommendation-pipeline` |
-| Final report, Markdown and PDF (3 pages) | Complete | [`final_report.md`](final_report.md), [`final_report.pdf`](final_report.pdf) |
+| Final report, Markdown, full PDF, and 3-page condensed PDF | Complete | [`final_report.md`](final_report.md), [`final_report.pdf`](final_report.pdf), [`final_report_3page.pdf`](final_report_3page.pdf) |
 | Unit tests | Complete | [`tests/`](../tests/), 21 passing |
 | Git repository with commit history | Complete | [`hasansyedamaan/dmml_assignment2`](https://github.com/hasansyedamaan/dmml_assignment2), branch `main` |
