@@ -252,6 +252,7 @@ The reported run produced:
 | Model comparison | `reports/model_comparison.md`, `.csv` |
 | Figures | `reports/figures/` |
 | Run log | `reports/run_log.txt` |
+| Final report (Markdown) | `reports/final_report.md` |
 | Final PDF (3 pages) | `reports/final_report.pdf` |
 | Architecture | `reports/architecture.mmd`, `reports/figures/architecture.png` |
 | Quarantined rows | `data/errors/` |
