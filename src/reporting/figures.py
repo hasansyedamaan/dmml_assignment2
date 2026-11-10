@@ -194,7 +194,7 @@ def plot_orchestration(config: Dict[str, Any]) -> Path:
     """Render the actual run's stage states and durations.
 
     This is explicitly labelled as generated from the real run, not as a Prefect
-    UI screenshot. The user may replace it with their own UI screenshot.
+    UI screenshot.
     """
     figures_dir = project_path(config, "figures")
     figures_dir.mkdir(parents=True, exist_ok=True)

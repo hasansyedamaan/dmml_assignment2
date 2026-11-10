@@ -19,7 +19,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-# Avoid background telemetry noise in local, offline assignment runs.
+# Avoid background telemetry noise in local, offline runs.
 os.environ.setdefault("PREFECT_SERVER_ANALYTICS_ENABLED", "false")
 os.environ.setdefault("PREFECT_ANALYTICS_ENABLED", "false")
 

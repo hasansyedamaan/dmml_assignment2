@@ -1,9 +1,8 @@
 """Truncated-SVD matrix-factorization recommender.
 
-This is the scikit-learn/SciPy fallback explicitly allowed by the brief when
-implicit/surprise wheels are unavailable. It learns latent user and item factors
-from the sparse training rating matrix and supports both ranking and explicit
-rating prediction.
+This implementation is used when implicit/surprise wheels are unavailable. It
+learns latent user and item factors from the sparse training rating matrix and
+supports both ranking and explicit rating prediction.
 """
 
 from __future__ import annotations

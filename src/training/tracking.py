@@ -9,8 +9,8 @@ import subprocess
 from pathlib import Path
 from typing import Any, Dict
 
-# The assignment explicitly requires the local file store at ./mlruns. MLflow 3
-# keeps this backend behind an opt-in flag, so set it before importing mlflow.
+# The project uses the local file store at ./mlruns. MLflow 3 keeps this backend
+# behind an opt-in flag, so set it before importing mlflow.
 os.environ.setdefault("MLFLOW_ALLOW_FILE_STORE", "true")
 os.environ.setdefault("MLFLOW_DISABLE_AGENT_HINT", "1")
 os.environ.setdefault("GIT_PYTHON_REFRESH", "quiet")

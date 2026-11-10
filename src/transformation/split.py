@@ -1,10 +1,9 @@
 """Leakage-safe time-based train/test splitting.
 
 The default is a per-user last-fraction split: each user's interactions are
-ordered by timestamp and the final ``test_fraction`` becomes test data. This is
-explicitly allowed by the brief and avoids the severe cold-start-user problem of
-a single global cutoff on MovieLens 100K. A global-quantile mode is also
-available for comparison.
+ordered by timestamp and the final ``test_fraction`` becomes test data. This
+avoids the severe cold-start-user problem of a single global cutoff on
+MovieLens 100K. A global-quantile mode is also available for comparison.
 """
 
 from __future__ import annotations

@@ -4,10 +4,10 @@
 **ID:** 2025AG05941  
 **Course:** Data Management for Machine Learning (DM4ML), Assignment 2
 
-This repository implements the complete assignment pipeline: ingestion, validation with
-quarantine, preparation, time-based splitting, train-only feature engineering, two
-recommenders, ranking/rating evaluation, MLflow tracking, Prefect orchestration, and
-reproducible evidence reports.
+This repository implements an end-to-end recommendation data pipeline: ingestion,
+validation with quarantine, preparation, time-based splitting, train-only feature
+engineering, two recommenders, ranking and rating evaluation, MLflow tracking, Prefect
+orchestration, and reproducible evidence reports.
 
 ## Quick start
 
@@ -71,10 +71,10 @@ construct its input from the persisted Parquet files or call the preceding stage
 - Primary source: MovieLens 100K from
   `https://files.grouplens.org/datasets/movielens/ml-100k.zip`.
 - Downloaded and extracted into `data/raw/ml-100k/`.
-- The verified run used **MovieLens 100K** (943 users, 1,682 items, 100,000 raw
+- The reported run used **MovieLens 100K** (943 users, 1,682 items, 100,000 raw
   interactions), not synthetic data.
-- If the download/load fails, `src/ingestion/synthetic.py` provides a deterministic
-  synthetic fallback. The chosen source is recorded in
+- If the download or load fails, `src/ingestion/synthetic.py` provides a deterministic
+  synthetic fallback. The selected source is recorded in
   `data/raw/ingestion_metadata.json` and `reports/run_summary.json`.
 
 ## Architecture
@@ -93,8 +93,6 @@ Invalid rows never enter the clean path. They are written to `data/errors/` with
 `failed_rules` column and a `dataset` column.
 
 ## Project structure
-
-The brief's `recommendation-pipeline/` tree is mapped directly onto this repository root:
 
 ```text
 .
@@ -154,7 +152,7 @@ The validation stage checks:
 - Pandera schema validation on surviving rows
 
 `python run_pipeline.py --inject-faults` deterministically injects each fault class.
-The verified demo run produced `945 -> 943` users, `1684 -> 1682` items, and
+The demo run produced `945 -> 943` users, `1684 -> 1682` items, and
 `100001 -> 99991` interactions, with every rejected row quarantined under
 `data/errors/`. See `reports/validation_report.md`, `.csv`, and `.json`.
 
@@ -170,7 +168,7 @@ split: each user's interactions are ordered by timestamp and the final 20% becom
 test data. This guarantees that no test interaction precedes that user's training
 cutoff, and it keeps every test user warm.
 
-In the verified run:
+In the reported run:
 
 - train: 79,614 interactions, 943 users, 1,611 items
 - test: 20,377 interactions, 943 users, 1,508 items
@@ -201,8 +199,8 @@ metrics.
 2. **Matrix factorization** (`src/training/matrix_factorization.py`): scikit-learn
    `TruncatedSVD` on the sparse user-item rating matrix for ranking, plus a separate
    bias-aware residual SVD (global mean + user/item offsets) for rating prediction.
-   This is the brief's permitted scikit-learn/SciPy fallback because `implicit` and
-   `surprise` do not have Python 3.15 wheels on this machine.
+   This scikit-learn/SciPy implementation is used because `implicit` and `surprise`
+   do not have compatible wheels in the project environment.
 
 ## Metrics
 
@@ -217,7 +215,7 @@ metrics.
 
 Metrics are computed at K=10 (primary) and K=5 (secondary). Results are in
 `reports/model_comparison.md` / `.csv` and `reports/figures/model_comparison.png`.
-The verified run produced:
+The reported run produced:
 
 | Model | Precision@10 | Recall@10 | NDCG@10 | Coverage@10 | Diversity@10 | RMSE | MAE |
 |---|---:|---:|---:|---:|---:|---:|---:|
@@ -241,10 +239,9 @@ The verified run produced:
   Parameters include seed, K, split method/fraction, cutoff timestamps, and cold-start
   counts; tags include the dataset and git commit. Metrics and small report/model
   artifacts are logged.
-- `reports/run_log.txt` is the real run log.
-- `reports/figures/orchestration_success.png` is generated from the real stage timings
-  and is labelled as **not** a Prefect UI screenshot. Replace it with a real Prefect UI
-  screenshot if your submission requires one.
+- `reports/run_log.txt` is the run log.
+- `reports/figures/orchestration_success.png` is generated from the actual stage timings
+  and is labelled as not a Prefect UI screenshot.
 
 ## Evidence checklist
 
@@ -260,7 +257,7 @@ The verified run produced:
 | Quarantined rows | `data/errors/` |
 | Processed/feature data | `data/processed/`, `data/features/` |
 | Models | `models/*.joblib` |
-| MLflow | `mlruns/` (local, ignored by git) |
+| MLflow | `mlruns/` (local file store) |
 
 ## Tests
 
@@ -275,23 +272,9 @@ and both recommender interfaces.
 
 ## Environment notes
 
-- Python 3.15 was used on this machine; all pinned versions were verified there.
-- `implicit`/`surprise` were not installed because compatible wheels were unavailable;
-  the brief permits the scikit-learn/SciPy fallback used here.
+- Python 3.15 was used for the reported run; all pinned versions were verified there.
+- `implicit` and `surprise` are not installed because compatible wheels were unavailable;
+  the scikit-learn/SciPy fallback is used instead.
 - PyYAML 6.0.3 has no cp315 wheel and the machine lacks MSVC build tools. A pure-Python
   wheel built from the same source is vendored at
   `vendor/pyyaml-6.0.3-py3-none-any.whl` and referenced by `requirements.txt`.
-- `mlflow` may warn about Git metadata when Git is unavailable; this does not affect
-  metrics or tracking.
-
-## Git
-
-The repository was initialized with meaningful per-stage commits. To publish it:
-
-```powershell
-git remote add origin <YOUR_GITHUB_REPOSITORY_URL>
-git branch -M main
-git push -u origin main
-```
-
-Do not push unless you have created the remote repository and reviewed the files.

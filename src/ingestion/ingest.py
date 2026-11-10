@@ -117,7 +117,7 @@ def inject_faults(
     interactions: pd.DataFrame,
     seed: int = 42,
 ) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
-    """Return corrupted copies covering every validation rule in the brief.
+    """Return corrupted copies covering every configured validation rule.
 
     Faults are deterministic and are only applied when ``inject_faults`` is on.
     New user/item rows are used for missing-value faults so they do not cascade
